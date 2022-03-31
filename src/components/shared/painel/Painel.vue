@@ -31,7 +31,7 @@
         width: 200px;
         height: 100%;
         display: inline-block;
-        background-color: rgb(83, 22, 99);
+        background-color: rgb(21, 55, 118);
     }
     .painel-titulo{
         text-align: center;
@@ -40,5 +40,13 @@
         height: 45px;
         font-size: 20px;
         border-block-end: solid 1px whitesmoke;
+    }
+
+    .painel-fade-enter, .painel-fade-leave-active {
+        opacity: 0;
+    }
+
+    .painel-fade-enter-active, .painel-fade-leave-active{
+        transition: opacity .3s;
     }
 </style>
