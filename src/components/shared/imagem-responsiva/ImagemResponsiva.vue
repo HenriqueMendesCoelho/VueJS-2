@@ -13,5 +13,6 @@ export default {
 <style scoped>
     .imagem-res {
         width: 100%;
+        height: auto;
     }
 </style>

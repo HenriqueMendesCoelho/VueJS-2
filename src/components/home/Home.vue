@@ -5,11 +5,11 @@
     <!-- v-on pode ser escrito tmb apenas com um @ -->
     <!-- v-bind pode ser escrito tmb apenas com um : -->
     <input type="search" class="filtro" v-on:input="filtro = $event.target.value" v-if="status == 200" placeholder="Digite">
-    {{ filtroAtivo }}
     <ul class="ul-lista">
-        <li class="li-lista" v-for="foto of fotosComFiltro" :key=foto>
+        <li class="li-lista" v-for="foto of fotosComFiltro" :key=foto.titulo>
         <meu-painel class="painel-conteudo" :titulo="foto.titulo">
             <imagem-responsiva :url="foto.url" :titulo="foto.titulo"></imagem-responsiva>
+            <meu-botao rotulo="Remover" tipo="button"/>
         </meu-painel>
         </li>
     </ul>
@@ -19,11 +19,13 @@
 <script>
     import Painel from '../shared/painel/Painel.vue';
     import ImagemResponsiva from '../shared/imagem-responsiva/ImagemResponsiva.vue';
+    import Botao from '../shared/botao/Botao.vue'
 
     export default {
         components: {
             'meu-painel': Painel,
-            'imagem-responsiva': ImagemResponsiva
+            'imagem-responsiva': ImagemResponsiva,
+            'meu-botao': Botao
         },
         data () {
         return {

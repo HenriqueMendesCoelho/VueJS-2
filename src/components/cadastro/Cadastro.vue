@@ -1,9 +1,8 @@
 <template>
-    <h2 class="titulo">Cadastro de Imagens</h2>
+    <h1 class="titulo">Cadastro de Imagens</h1>
 </template>
 
 <script>
-
 export default {
     
 }

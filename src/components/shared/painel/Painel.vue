@@ -23,23 +23,28 @@
 </script>
 
 <style scoped>
-    .painel{
+    .painel {
         border: solid 1px whitesmoke;
         padding: 0 auto;
         margin: 5px;
         vertical-align: top;
+        text-align: center;
         width: 200px;
         height: 100%;
         display: inline-block;
         background-color: rgb(21, 55, 118);
     }
-    .painel-titulo{
+    .painel-titulo {
         text-align: center;
         text-align-last: center;
         vertical-align: top;
         height: 45px;
         font-size: 20px;
         border-block-end: solid 1px whitesmoke;
+    }
+
+    .painel-conteudo {
+        height: 300px;
     }
 
     .painel-fade-enter, .painel-fade-leave-active {
