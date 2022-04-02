@@ -1,15 +1,19 @@
 <template>
 <div>
-    <h1 class="title">{{ title }}</h1>
+    <h1 class="centralizado">{{ title }}</h1>
     <h2>{{ status }}</h2>
+    <p class="centralizado" v-show="mensagem">{{ mensagem }}</p>
     <!-- v-on pode ser escrito tmb apenas com um @ -->
     <!-- v-bind pode ser escrito tmb apenas com um : -->
     <input type="search" class="filtro" v-on:input="filtro = $event.target.value" v-if="status == 200" placeholder="Digite">
     <ul class="ul-lista">
         <li class="li-lista" v-for="foto of fotosComFiltro" :key=foto.titulo>
-        <meu-painel class="painel-conteudo" :titulo="foto.titulo">
-            <imagem-responsiva :url="foto.url" :titulo="foto.titulo"></imagem-responsiva>
-            <meu-botao rotulo="Remover" tipo="button"/>
+        <meu-painel class="painel-conteudo" :titulo="foto.titulo" :descricao="foto.descricao">
+            <imagem-responsiva v-meu-transform:scale.reverse.animate="1.1" :url="foto.url" :titulo="foto.titulo"></imagem-responsiva>
+            <router-link :to="{name: 'altera', params: { id: foto._id }}">
+                <meu-botao rotulo="Alterar" tipo="button"/>
+            </router-link>
+            <meu-botao rotulo="Remover" tipo="button" @botaoAtivado="remove(foto)" :confirmacao="true" estilo="alerta"/>
         </meu-painel>
         </li>
     </ul>
@@ -20,6 +24,7 @@
     import Painel from '../shared/painel/Painel.vue';
     import ImagemResponsiva from '../shared/imagem-responsiva/ImagemResponsiva.vue';
     import Botao from '../shared/botao/Botao.vue'
+    import FotoService from '../../domain/foto/FotoService'
 
     export default {
         components: {
@@ -32,7 +37,8 @@
             title: "Exibição de fotos",
             fotos: [],
             status: null,
-            filtro: ""
+            filtro: "",
+            mensagem: ""
         }
         },
         computed: {
@@ -46,9 +52,31 @@
                 }
             }
         },
+        methods: {
+            remove(foto) {
+                //this.$http.delete(`v1/fotos/${foto._id}`)
+                this.service.remove(foto._id)
+                .then(() => {
+                    let indice = this.fotos.indexOf(foto);
+                    this.fotos.splice(indice, 1);
+                    this.mensagem="Foto removida com sucesso!";
+                }, err => {
+                    console.log(err);
+                    this.mensagem = "Não foi possível remover a foto";
+                }); 
+            }
+        },
         created(){
             //Realizando requisição get
-            let promise = this.$http.get('http://localhost:3000/v1/fotos');
+            this.service = new FotoService(this.$resource);
+            
+            this.service
+                .list()
+                .then( fotos => this.fotos = fotos, err =>  console.log(err));
+
+            //Uma das formas de fazer - Feito pela preira vez
+            /*
+            let promise = this.$http.get('v1/fotos');
 
             //Pegando o status da promeça caso a requisição seja executada com sucesso
             promise.then(res => this.status = res.status);
@@ -60,12 +88,13 @@
             //Informando em tela caso a promise da requisição 
             //não tenha sido executada com sucesso
             if(this.status == null || this.status == 0) this.status = "Server error";
+            */
         }
     }
 </script>
 
 <style>
-    .title{
+    .centralizado{
         text-align: center;
     }
     .ul-lista{

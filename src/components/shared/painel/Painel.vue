@@ -5,6 +5,7 @@
         <transition name="painel-fade">
             <div class="painel-conteudo" v-show="visible">
                 <slot></slot>
+                <h2 class="painel-desc" v-show="descricao">{{ descricao }}</h2>
             </div>
         </transition>
     </div>
@@ -12,7 +13,7 @@
 
 <script>
     export default {
-        props: ['titulo'],
+        props: ['titulo', 'descricao'],
 
         data() {
             return {
@@ -42,9 +43,14 @@
         font-size: 20px;
         border-block-end: solid 1px whitesmoke;
     }
-
+    .painel-desc {
+        text-align: center;
+        text-align-last: center;
+        vertical-align: top;
+        font-size: 10px;
+    }
     .painel-conteudo {
-        height: 300px;
+        overflow: hidden;
     }
 
     .painel-fade-enter, .painel-fade-leave-active {

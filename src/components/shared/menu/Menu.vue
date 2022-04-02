@@ -1,10 +1,12 @@
 <template>
     <nav>
-        <ul>
-            <li v-for="route in routes" :key=route.title>
-                <router-link :to="route.path ? route.path : '/'">
-                    {{ route.title }}
-                </router-link>
+        <ul class="ul-lista">
+            <li class="li-lista" v-for="route in routes" :key=route.title>
+                <b>
+                    <router-link class="router" :to="route.path ? route.path : '/'">
+                        {{ route.title }}
+                    </router-link>
+                </b>
             </li>
         </ul>
     </nav>
@@ -23,5 +25,8 @@ export default {
 </script>
 
 <style scoped>
-
+    .ul-lista {
+        list-style: none;
+        display: grid;
+    }
 </style>
