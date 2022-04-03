@@ -60,10 +60,7 @@
                     let indice = this.fotos.indexOf(foto);
                     this.fotos.splice(indice, 1);
                     this.mensagem="Foto removida com sucesso!";
-                }, err => {
-                    console.log(err);
-                    this.mensagem = "Não foi possível remover a foto";
-                }); 
+                }, err => this.mensagem = err.message); 
             }
         },
         created(){
@@ -72,7 +69,7 @@
             
             this.service
                 .list()
-                .then( fotos => this.fotos = fotos, err =>  console.log(err));
+                .then( fotos => this.fotos = fotos, err => this.mensagem = err.message);
 
             //Uma das formas de fazer - Feito pela preira vez
             /*

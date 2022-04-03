@@ -1,38 +1,45 @@
 <template>
     <div>
         <h1 class="centralizado">Cadastro</h1>
-        <h2 class="centralizado"></h2>
+        <h2 class="centralizado" v-if="foto._id" >Alterando</h2>
+        <h2 class="centralizado" v-else>Incluindo</h2>
+        <validationObserver v-slot="{ handleSubmit }">
+            <form @submit.prevent="handleSubmit(salvar)">
+                <ValidationProvider class="controle" rules="required" v-slot="{ errors }">
+                    <label for="titulo">TÍTULO</label>
+                    <input id="titulo" autocomplete="off" v-model.lazy="foto.titulo"/>
+                    <br>
+                    <span class="error">{{ errors[0] }}</span>
+                    <br>
+                </ValidationProvider>
+                <ValidationProvider class="controle" rules="required" v-slot="{ errors }">
+                    <label for="url">URL</label>
+                    <input id="url" autocomplete="off" v-model.lazy="foto.url"/>
+                    <br>
+                    <span class="error">{{ errors[0] }}</span>
+                    <br>
+                </ValidationProvider>
+                <ValidationProvider class="controle">
+                    <label for="descricao">DESCRIÇÃO</label>
+                    <textarea id="descricao" autocomplete="off" v-model.lazy="foto.descricao"></textarea>
+                </ValidationProvider>
+                <div>
+                    <div class="centralizado">
+                        <meu-painel v-show="foto.url && foto.titulo" :titulo="foto.titulo">
+                            <imagem-responsiva v-meu-transform:scale.reverse.animate="1.1" v-show="foto.url && foto.titulo" :titulo="foto.titulo" :url="foto.url" />
+                            <h5 class="image-sample-desc" v-show="foto.url && foto.titulo && foto.descricao">{{ foto.descricao }}</h5>
+                        </meu-painel>
+                    </div>
 
-        <form @submit.prevent="salvar()">
-            <div class="controle">
-                <label for="titulo">TÍTULO</label>
-                <input id="titulo" autocomplete="off" v-model.lazy="foto.titulo"/>
-            </div>
-            <div class="controle">
-                <label for="url">URL</label>
-                <input id="url" autocomplete="off" v-model.lazy="foto.url"/>
-                <imagem-responsiva />
-            </div>
-            <div class="controle">
-                <label for="descricao">DESCRIÇÃO</label>
-                <textarea id="descricao" autocomplete="off" v-model.lazy="foto.descricao"></textarea>
-            </div>
-            <div>
-                <div class="centralizado">
-                    <meu-painel v-show="foto.url && foto.titulo" :titulo="foto.titulo">
-                        <imagem-responsiva v-meu-transform:scale.reverse.animate="1.1" v-show="foto.url && foto.titulo" :titulo="foto.titulo" :url="foto.url" />
-                        <h5 class="image-sample-desc" v-show="foto.url && foto.titulo && foto.descricao">{{ foto.descricao }}</h5>
-                    </meu-painel>
                 </div>
-
-            </div>
-            <div class="centralizado">
-                <meu-botao rotulo="SALVAR" tipo="submit" />
-                <router-link :to="{name:'home'}">
-                    <meu-botao rotulo="VOLTAR" tipo="button"/>
-                </router-link>
-            </div>
-        </form>
+                <div class="centralizado">
+                    <meu-botao rotulo="SALVAR" tipo="submit" />
+                    <router-link :to="{name:'home'}">
+                        <meu-botao rotulo="VOLTAR" tipo="button"/>
+                    </router-link>
+                </div>
+            </form>
+        </validationObserver>
     </div>
 </template>
 
@@ -88,7 +95,11 @@ export default {
 }
 .controle {
     font-size: 1.2em;
-    margin-bottom: 20px;
+    margin: 20px;
+}
+.titulo {
+    display: block;
+    font-weight: bold;
 }
 .controle label {
     display: block;
@@ -98,7 +109,6 @@ export default {
     width: 200px;
     height: 100%;
 }
-
 .image-sample-titulo, .image-sample-desc {
     text-align: center;
 }
@@ -108,7 +118,9 @@ export default {
     font-size: inherit;
     border-radius: 5px;
 }
-
+.error {
+    color: red;
+}
 .centralizado {
     text-align: center;
 }
