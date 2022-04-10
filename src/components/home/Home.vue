@@ -33,13 +33,13 @@
             'meu-botao': Botao
         },
         data () {
-        return {
-            title: "Exibição de fotos",
-            fotos: [],
-            status: null,
-            filtro: "",
-            mensagem: ""
-        }
+            return {
+                title: "Exibição de fotos",
+                fotos: [],
+                status: null,
+                filtro: "",
+                mensagem: ""
+            }
         },
         computed: {
 
